@@ -1,0 +1,27 @@
+# 可执行文件
+*.exe
+
+# 调试信息
+*.pdb
+
+# 目标文件
+*.obj
+*.o
+
+# 动态库
+*.dll
+
+# 静态库
+*.lib
+*.a
+
+# 编译目录
+Debug/
+Release/
+build/
+
+# VS Code配置（如果不想上传）
+.vscode/
+
+# JetBrains IDE
+.idea/
