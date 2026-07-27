@@ -14,29 +14,40 @@ int main()
     // 采用动态规划，f(i,j)=f(i-1,j)+f(i,j-1)  (i,j) != 马的控制点
     const int ctrl_x[9] = {0, -2, -1, 1, 2, 2, 1, -1, -2};
     const int ctrl_y[9] = {0, -1, -2, -2, -1, 1, 2, 2, 1};
-    int ways[21][21] = {0};
+    long long ways[21][21] = {0};
     bool horse_control[21][21] = {false};
     for (int k = 0; k < 9; k++)
     {
         int x = horse_x + ctrl_x[k];
         int y = horse_y + ctrl_y[k];
-        if (x >= 0 && y >= 0)
+        if (x >= 0 && x <= n && y >= 0 && y <= m)
             horse_control[x][y] = true; // 马的控制点标记为true
     }
     for (int j = 1; j <= m; j++)
     {
-        if (horse_control[0][j])
-            ways[0][j] = 0; // 马的控制点不能走
-        else
+        if (!horse_control[0][j])
             ways[0][j] = 1; // 初始化第一行
+        else
+        {
+            for (int k = j; k <= m; k++)
+                ways[0][k] = 0; // 马的控制点不能走
+            break;
+        }
     }
     for (int i = 1; i <= n; i++)
     {
-        if (horse_control[i][0])
-            ways[i][0] = 0; // 马的控制点不能走
-        else
+        if (!horse_control[i][0])
+        {
             ways[i][0] = 1; // 初始化第一列
+        }
+        else
+        {
+            for (int k = i; k <= n; k++)
+                ways[k][0] = 0; // 马的控制点不能走
+            break;
+        }
     }
+    ways[0][0] = 1; // 起点
     for (int i = 1; i <= n; i++)
     {
         for (int j = 1; j <= m; j++)
