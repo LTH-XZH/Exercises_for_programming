@@ -81,16 +81,6 @@ public:
         }
         return a; // They are equal
     }
-
-    static high_num power_2(int x)
-    {
-        high_num result(1);
-        for (int i = 1; i <= x; ++i)
-        {
-            result = result * 2;
-        }
-        return result;
-    }
     void print() const
     {
         for (int i = len - 1; i >= 0; --i)
