@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "high_num.h"
+#include "high_num.cpp"
 
 using namespace std;
 
