@@ -17,6 +17,17 @@
 // 2）最大时间：求的是所有士兵最大时间的最大值
 
 // 注意！！两次都是所有士兵的时间中最大的一个！！
+
+
+// 对“贪心”算法的理解：如本题，独立算出每个士兵的最短时间与最长时间，然后重复去最大值。
+// 如下面这段就是本题中“贪心”的体现
+// for (int i = 1; i <= N; i++)
+// {
+//     if (min_time[i] > min_time_all)
+//         min_time_all = min_time[i];
+//     if (max_time[i] > max_time_all)
+//         max_time_all = max_time[i];
+// }
 int main()
 {
     int L, N;
@@ -29,13 +40,18 @@ int main()
     }
     int min_time[5050];
     int max_time[5050];
+
+    // 求解局部最优和局部最坏
     for (int i = 1; i <= N; i++)
     {
         min_time[i] = coord[i] < (L + 1 - coord[i]) ? coord[i] : (L + 1 - coord[i]);
         max_time[i] = coord[i] > (L + 1 - coord[i]) ? coord[i] : (L + 1 - coord[i]);
     }
+
     int min_time_all = 0;
     int max_time_all = 0;
+
+    // 求解全局最优和全局最坏
     for (int i = 1; i <= N; i++)
     {
         if (min_time[i] > min_time_all)
