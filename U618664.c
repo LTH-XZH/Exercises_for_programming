@@ -40,12 +40,24 @@ int main()
         }
         else if (operate == 4)
         {
+            // 初版冒泡排序发现会造成0 0 0 2 3 5的局面，故要先将非零储物柜集中在前面
+            int k = 0; // 定义k来记录非零储物柜的个数
+            for (int i = 1; i <= n; i++)
+            {
+                if (locker[i] != 0)
+                {
+                    k++;
+                    int temp = locker[k];
+                    locker[k] = locker[i];
+                    locker[i] = temp;
+                }
+            }
             // 冒泡排序
-            for (int i = n - 1; i > 0; i--)
+            for (int i = k - 1; i > 0; i--)
             {
                 for (int j = 1; j <= i; j++)
                 {
-                    if (locker[j] != 0 && locker[j + 1] != 0 && locker[j] > locker[j + 1])
+                    if (locker[j] > locker[j + 1])
                     {
                         int temp = locker[j];
                         locker[j] = locker[j + 1];
