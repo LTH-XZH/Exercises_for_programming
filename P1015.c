@@ -16,6 +16,8 @@ int main()
     Len = strlen(num);
     for (int i = 0; i < Len; i++)
     {
+        // 字符由ASCII码转换为数字方便计算
+        // 由于只需要比较每一位是否相等，最后输出的是步骤数，故大于10的数不需要再由10转换为A
         if ('0' <= num[i] && num[i] <= '9')
             num[i] -= '0';
         else if ('A' <= num[i] && num[i] <= 'F')
@@ -33,7 +35,6 @@ int main()
         }
         else if (ans > 30)
         {
-
             printf("Impossible!\n");
             break;
         }
