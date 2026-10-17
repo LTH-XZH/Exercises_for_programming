@@ -1,108 +1,70 @@
 #include <stdio.h>
+#include <string.h>
 
-int reverse_plus(int n, int R);
-int prove(int n);
-// int getLen(char *group[])
-// {
-//     int Len = 0;
-//     for (int i = 1; group[i] != -1; i++)
-//         Len++;
-//     return Len;
-// }
+// 第一遍实现逻辑太过复杂，鉴于依靠数组运算引入cstring库，依赖字符串处理函数
+// 为了便于实现，不妨设为全局变量
+#define MAX_LEN 110
+
+int R, Len;
+char num[MAX_LEN] = {0}, reverse[MAX_LEN] = {0};
+void reverse_plus();
+int prove();
 
 int main()
 {
-    int R, n;
-    scanf("%d %d", &R, &n);
+    scanf("%d %s", &R, num);
+    Len = strlen(num);
+    for (int i = 0; i < Len; i++)
+    {
+        if ('0' <= num[i] && num[i] <= '9')
+            num[i] -= '0';
+        else if ('A' <= num[i] && num[i] <= 'F')
+            num[i] -= 'A' - 10;
+    }
     while (1)
     {
         static int ans = 0;
-        n = reverse_plus(n, R);
+        reverse_plus();
         ans++;
-        if (prove(n))
+        if (prove() && ans <= 30)
         {
-            printf("STEP=%d", ans);
+            printf("STEP=%d\n", ans);
+            break;
+        }
+        else if (ans > 30)
+        {
+
+            printf("Impossible!\n");
             break;
         }
     }
     return 0;
 }
 
-int reverse_plus(int n, int R)
+void reverse_plus()
 {
-    char corre_order[110];
-    char reverse_order[110];
-    char sum[110];
-    for (int i = 0; i < 110; i++)
+    for (int i = 0; i < Len; i++)
     {
-        corre_order[i] = -1;
-        reverse_order[i] = -1;
-        sum[i] = -1;
+        reverse[i] = num[Len - 1 - i];
     }
-    int i = 1;
-    while (1)
-    {
-        reverse_order[i] = n % 10;
-        n /= 10;
-        if (n == 0)
-            break;
-        i++;
-    }
-    int j = 1;
-    for (int i = 109; i > 0; i--)
-    {
-        if (reverse_order[i] != -1)
-        {
-            corre_order[j] = reverse_order[i];
-            j++;
-        }
-    }
-    sum[1] = (reverse_order[1] + corre_order[1]) % R;
     int k;
-    for (k = 2; corre_order[k] != -1; k++)
+    for (int k = 0; k < Len + 1; k++)
     {
-        sum[k] = ((corre_order[k - 1] + reverse_order[k - 1]) / R + corre_order[k] + reverse_order[k]) % R;
-    }
-    if ((corre_order[k - 1] + reverse_order[k - 1]) / R > 0)
-        sum[k] = (corre_order[k - 1] + reverse_order[k - 1]) / R;
-    int plus_out = 0;
-    for (int i = 1; sum[i] != -1; i++)
-    {
-        plus_out *= 10;
-        plus_out += sum[i];
-    }
-    return plus_out;
-}
-int prove(int n)
-{
-    char corre_order[110];
-    char reverse_order[110];
-    for (int i = 0; i < 110; i++)
-    {
-        corre_order[i] = -1;
-        reverse_order[i] = -1;
-    }
-    int i = 1;
-    while (1)
-    {
-        reverse_order[i] = n % 10;
-        n /= 10;
-        if (n == 0)
-            break;
-        i++;
-    }
-    int j = 1;
-    for (int i = 109; i > 0; i--)
-    {
-        if (reverse_order[i] != -1)
+        num[k] += reverse[k];
+        if (num[k] >= R)
         {
-            corre_order[j] = reverse_order[i];
-            j++;
+            num[k + 1]++;
+            num[k] -= R;
         }
     }
-    for (int i = 1; corre_order[i] != -1; i++)
+    if (num[Len] != 0)
+        Len += 1;
+}
+int prove()
+{
+    for (int i = 0; i < Len / 2; i++)
     {
-        if (reverse_order[i] != corre_order[i])
+        if (num[i] != num[Len - 1 - i])
             return 0;
     }
     return 1;
