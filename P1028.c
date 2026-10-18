@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// 比较简单的一维数组递推
 int main()
 {
     int n;
